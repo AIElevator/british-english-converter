@@ -89,14 +89,54 @@ document.addEventListener('DOMContentLoaded', () => {
     // Copy button
     if (copyBtn) {
         copyBtn.addEventListener('click', () => {
-            if (outputText?.value) {
+            if (!outputText?.value) {
+                alert('No text to copy. Please convert some text first.');
+                return;
+            }
+
+            // Try modern clipboard API first
+            if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(outputText.value).then(() => {
+                    console.log('Text copied successfully');
                     copyBtn.textContent = 'Copied!';
-                    setTimeout(() => { copyBtn.textContent = 'Copy to clipboard'; }, 2000);
+                    copyBtn.style.backgroundColor = '#4caf50';
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Copy to clipboard';
+                        copyBtn.style.backgroundColor = '';
+                    }, 2000);
                 }).catch(err => {
-                    console.error('Copy failed:', err);
-                    alert('Failed to copy. Please try manually.');
+                    console.error('Clipboard API failed:', err);
+                    fallbackCopy();
                 });
+            } else {
+                // Fallback for older browsers
+                fallbackCopy();
+            }
+
+            function fallbackCopy() {
+                try {
+                    // Select the text
+                    outputText.select();
+                    outputText.setSelectionRange(0, 99999);
+
+                    // Copy using deprecated method
+                    const successful = document.execCommand('copy');
+
+                    if (successful) {
+                        console.log('Text copied via fallback method');
+                        copyBtn.textContent = 'Copied!';
+                        copyBtn.style.backgroundColor = '#4caf50';
+                        setTimeout(() => {
+                            copyBtn.textContent = 'Copy to clipboard';
+                            copyBtn.style.backgroundColor = '';
+                        }, 2000);
+                    } else {
+                        throw new Error('execCommand failed');
+                    }
+                } catch (err) {
+                    console.error('Fallback copy failed:', err);
+                    alert('Could not copy. Please select and copy manually from the output field.');
+                }
             }
         });
     }
