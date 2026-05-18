@@ -1,0 +1,12 @@
+{
+  "name": "british-english-converter",
+  "version": "1.0.0",
+  "description": "Transform English text into authentic British English",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python3 -m http.server 3000"
+  },
+  "keywords": ["british-english", "converter", "grammar"],
+  "author": "David Hall",
+  "license": "MIT"
+}
