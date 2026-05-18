@@ -1,9 +1,7 @@
 class BritishEnglishConverter {
     constructor() {
-        // Comprehensive spelling patterns (American → British)
-        // Handles word variations with suffixes
+        // Spelling patterns: American → British
         this.spellingPatterns = [
-            // -or → -our words
             { pattern: /\bcolor(s|ed|ing|ful|less|able)?\b/gi, replacement: 'colour$1' },
             { pattern: /\bhonor(s|ed|ing|able)?\b/gi, replacement: 'honour$1' },
             { pattern: /\bharbor(s|ed|ing)?\b/gi, replacement: 'harbour$1' },
@@ -17,8 +15,6 @@ class BritishEnglishConverter {
             { pattern: /\bvapor(s|ous)?\b/gi, replacement: 'vapour$1' },
             { pattern: /\bsavior(s)?\b/gi, replacement: 'saviour$1' },
             { pattern: /\bhumor(ous|ist)?\b/gi, replacement: 'humour$1' },
-
-            // -ize → -ise words
             { pattern: /\borganize(s|d|r|ing)?\b/gi, replacement: 'organise$1' },
             { pattern: /\boptimize(s|d|r|ing)?\b/gi, replacement: 'optimise$1' },
             { pattern: /\brealize(s|d|r|ing)?\b/gi, replacement: 'realise$1' },
@@ -29,17 +25,11 @@ class BritishEnglishConverter {
             { pattern: /\blegalize(s|d|r|ing)?\b/gi, replacement: 'legalise$1' },
             { pattern: /\bmoraliz(e|es|ed|ing)?\b/gi, replacement: 'moralis$1' },
             { pattern: /\bsummarize(s|d|ing)?\b/gi, replacement: 'summarise$1' },
-            { pattern: /\bcharacterize(s|d|ing)?\b/gi, replacement: 'characterise$1' },
-            { pattern: /\bprioritize(s|d|ing)?\b/gi, replacement: 'prioritise$1' },
-
-            // -er → -re words
             { pattern: /\bcenter(s|ed|ing)?\b/gi, replacement: 'centre$1' },
             { pattern: /\btheater(s|ical)?\b/gi, replacement: 'theatre$1' },
             { pattern: /\bmeter(s|ing)?\b/gi, replacement: 'metre$1' },
             { pattern: /\bfiber(s|glass|optic)?\b/gi, replacement: 'fibre$1' },
             { pattern: /\bliter(s)?\b/gi, replacement: 'litre$1' },
-
-            // Double consonant before suffix
             { pattern: /\btraveled\b/gi, replacement: 'travelled' },
             { pattern: /\btraveling\b/gi, replacement: 'travelling' },
             { pattern: /\btraveler(s)?\b/gi, replacement: 'traveller$1' },
@@ -56,52 +46,48 @@ class BritishEnglishConverter {
             { pattern: /\bdialog(ue)?\b/gi, replacement: 'dialogue' },
         ];
 
-        // Vocabulary replacements (American → British)
+        // Vocabulary: American → British
         this.vocabularyMap = {
-            'elevator': 'lift',
-            'elevators': 'lifts',
-            'apartment': 'flat',
-            'apartments': 'flats',
-            'truck': 'lorry',
-            'trucks': 'lorries',
-            'fall': 'autumn',
-            'pants': 'trousers',
-            'mom': 'mum',
-            'moms': 'mums',
-            'mom\'s': 'mum\'s',
-            'soccer': 'football',
-            'vacation': 'holiday',
-            'vacations': 'holidays',
-            'gas': 'petrol',
-            'garbage': 'rubbish',
-            'trash': 'rubbish',
-            'sidewalk': 'pavement',
-            'bathroom': 'toilet',
-            'bathrooms': 'toilets',
-            'check': 'cheque',
-            'checks': 'cheques',
-            'cell phone': 'mobile phone',
-            'cellphone': 'mobile',
-            'cell': 'mobile',
-            'cookie': 'biscuit',
-            'cookies': 'biscuits',
-            'candy': 'sweets',
-            'condo': 'flat',
-            'condos': 'flats',
-            'automobile': 'car',
-            'automobiles': 'cars',
-            'movies': 'films',
-            'movie': 'film',
-            'gotten': 'got',
-            'donut': 'doughnut',
-            'donuts': 'doughnuts',
-            'eggplant': 'aubergine',
-            'zucchini': 'courgette',
-            'zucchinis': 'courgettes',
-            'math': 'maths',
-            'school math': 'school maths',
-            'a math': 'a maths',
+            'elevator': 'lift', 'elevators': 'lifts',
+            'apartment': 'flat', 'apartments': 'flats',
+            'truck': 'lorry', 'trucks': 'lorries',
+            'fall': 'autumn', 'pants': 'trousers',
+            'mom': 'mum', 'moms': 'mums', 'mom\'s': 'mum\'s',
+            'soccer': 'football', 'vacation': 'holiday', 'vacations': 'holidays',
+            'gas': 'petrol', 'garbage': 'rubbish', 'trash': 'rubbish',
+            'sidewalk': 'pavement', 'bathroom': 'toilet', 'bathrooms': 'toilets',
+            'check': 'cheque', 'checks': 'cheques',
+            'cell phone': 'mobile phone', 'cellphone': 'mobile', 'cell': 'mobile',
+            'cookie': 'biscuit', 'cookies': 'biscuits', 'candy': 'sweets',
+            'condo': 'flat', 'condos': 'flats',
+            'donut': 'doughnut', 'donuts': 'doughnuts',
+            'eggplant': 'aubergine', 'zucchini': 'courgette', 'zucchinis': 'courgettes',
+            'math': 'maths', 'gotten': 'got',
         };
+
+        // Banned phrases to remove
+        this.bannedPhrases = [
+            /\bit is important to note that\b/gi,
+            /\bno discussion would be complete without\b/gi,
+            /\bneedless to say[,.]?\b/gi,
+            /\breally unique\b/gi,
+            /\bmore unique\b/gi,
+            /\bvery unique\b/gi,
+            /\breach out\b/gi,
+            /\bgame changing\b/gi,
+            /\bgame-changing\b/gi,
+            /\bcutting edge\b/gi,
+            /\btransformative\b/gi,
+            /\barguably\b/gi,
+            /\bit could be said that\b/gi,
+        ];
+
+        // Collective nouns that should be plural
+        this.collectiveNouns = [
+            'team', 'group', 'committee', 'board', 'staff', 'company', 'organisation',
+            'government', 'department', 'council', 'parliament', 'assembly', 'class',
+            'jury', 'crew', 'squad', 'panel', 'audience', 'choir', 'cast', 'band'
+        ];
     }
 
     convert(text) {
@@ -109,16 +95,15 @@ class BritishEnglishConverter {
 
         let result = text;
 
-        // Apply spelling patterns with word boundary preservation
+        // 1. Apply spelling patterns
         for (const pattern of this.spellingPatterns) {
             result = result.replace(pattern.pattern, pattern.replacement);
         }
 
-        // Apply vocabulary replacements (case-preserving)
+        // 2. Apply vocabulary replacements (case-preserving)
         for (const [american, british] of Object.entries(this.vocabularyMap)) {
             const regex = new RegExp(`\\b${american}\\b`, 'gi');
             result = result.replace(regex, (match) => {
-                // Preserve case
                 if (match[0] === match[0].toUpperCase() && match.length > 1) {
                     return british.charAt(0).toUpperCase() + british.slice(1);
                 }
@@ -126,10 +111,87 @@ class BritishEnglishConverter {
             });
         }
 
-        // Remove emojis
+        // 3. Remove banned phrases
+        for (const pattern of this.bannedPhrases) {
+            result = result.replace(pattern, '');
+        }
+
+        // 4. Fix "reach out" → "get in touch"
+        result = result.replace(/\breach\s+out\b/gi, 'get in touch');
+
+        // 5. Fix fewer vs less
+        result = this.fixFewerLess(result);
+
+        // 6. Remove Oxford commas (comma before 'and' in lists)
+        result = result.replace(/,\s+and\b/g, ' and');
+
+        // 7. Fix quotation marks: " → ' (double to single)
+        result = this.fixQuotationMarks(result);
+
+        // 8. Fix dashes used as pause punctuation
+        result = this.fixDashPunctuation(result);
+
+        // 9. Ensure single space after full stops
+        result = result.replace(/([.!?])\s{2,}/g, '$1 ');
+
+        // 10. Fix collective noun verbs (the team is → the team are)
+        result = this.fixCollectiveNouns(result);
+
+        // 11. Fix apostrophes in plurals (remove apostrophes from 1980's, CEO's, etc.)
+        result = this.fixPluralApostrophes(result);
+
+        // 12. Remove emojis
         result = result.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{27BF}]/gu, '').trim();
 
+        // 13. Clean up extra spaces
+        result = result.replace(/\s{2,}/g, ' ').trim();
+
         return result;
+    }
+
+    fixFewerLess(text) {
+        // fewer for countable: enquiries, leads, items, people, things, instances
+        const countableNouns = ['enquiries', 'leads', 'items', 'people', 'things', 'instances', 'students', 'customers', 'employees', 'errors', 'mistakes', 'issues'];
+        for (const noun of countableNouns) {
+            text = text.replace(new RegExp(`\\bless\\s+${noun}\\b`, 'gi'), `fewer ${noun}`);
+        }
+        return text;
+    }
+
+    fixQuotationMarks(text) {
+        // Convert double quotes to single quotes
+        return text.replace(/"/g, "'");
+    }
+
+    fixDashPunctuation(text) {
+        // Remove em dashes and en dashes used as pauses (replace with commas)
+        // Keep dashes only in ranges like "5–10" or "2019–2024"
+        text = text.replace(/\s+[–—]\s+/g, ', ');
+        return text;
+    }
+
+    fixCollectiveNouns(text) {
+        for (const noun of this.collectiveNouns) {
+            // Fix "the [noun] is" → "the [noun] are"
+            const regex = new RegExp(`\\bthe\\s+${noun}\\s+is\\b`, 'gi');
+            text = text.replace(regex, `the ${noun} are`);
+
+            // Fix "the [noun] has" → "the [noun] have"
+            const hasRegex = new RegExp(`\\bthe\\s+${noun}\\s+has\\b`, 'gi');
+            text = text.replace(hasRegex, `the ${noun} have`);
+
+            // Fix "[Noun] is" → "[Noun] are" (for proper nouns like "ALS Industrial is")
+            const propRegex = new RegExp(`\\b${noun}\\s+is\\b`, 'gi');
+            text = text.replace(propRegex, `${noun} are`);
+        }
+        return text;
+    }
+
+    fixPluralApostrophes(text) {
+        // Remove apostrophes from plurals: 1980's → 1980s, CEO's → CEOs, UFO's → UFOs
+        text = text.replace(/(\d+)'s\b/g, '$1s');
+        text = text.replace(/([A-Z]{2,})'s\b/g, '$1s');
+        return text;
     }
 }
 
@@ -141,8 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const convertBtn = document.getElementById('convertBtn');
     const clearBtn = document.getElementById('clearBtn');
     const copyBtn = document.getElementById('copyBtn');
-
-    console.log('British English Converter initialized');
 
     // Convert button
     if (convertBtn) {
@@ -162,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Copy button with improved functionality
+    // Copy button
     if (copyBtn) {
         copyBtn.addEventListener('click', () => {
             if (!outputText?.value) {
@@ -170,7 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Try modern clipboard API first
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(outputText.value).then(() => {
                     copyBtn.textContent = 'Copied!';
@@ -179,9 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         copyBtn.textContent = 'Copy to clipboard';
                         copyBtn.style.backgroundColor = '';
                     }, 2000);
-                }).catch(err => {
-                    fallbackCopy();
-                });
+                }).catch(() => fallbackCopy());
             } else {
                 fallbackCopy();
             }
@@ -199,8 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             copyBtn.textContent = 'Copy to clipboard';
                             copyBtn.style.backgroundColor = '';
                         }, 2000);
-                    } else {
-                        throw new Error('execCommand failed');
                     }
                 } catch (err) {
                     alert('Could not copy. Please select and copy manually from the output field.');
