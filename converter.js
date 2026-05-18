@@ -44,28 +44,60 @@ class BritishEnglishConverter {
     }
 }
 
-const converter = new BritishEnglishConverter();
-const inputText = document.getElementById('inputText');
-const outputText = document.getElementById('outputText');
-const convertBtn = document.getElementById('convertBtn');
-const clearBtn = document.getElementById('clearBtn');
-const copyBtn = document.getElementById('copyBtn');
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    const converter = new BritishEnglishConverter();
+    const inputText = document.getElementById('inputText');
+    const outputText = document.getElementById('outputText');
+    const convertBtn = document.getElementById('convertBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const copyBtn = document.getElementById('copyBtn');
 
-convertBtn?.addEventListener('click', () => {
-    outputText.value = converter.convert(inputText.value);
-});
+    // Debug: Log if elements are found
+    console.log('Elements loaded:', { inputText: !!inputText, outputText: !!outputText, convertBtn: !!convertBtn });
 
-clearBtn?.addEventListener('click', () => {
-    inputText.value = '';
-    outputText.value = '';
-    inputText.focus();
-});
+    // Allow text input and pasting
+    if (inputText) {
+        inputText.addEventListener('paste', (e) => {
+            console.log('Paste event detected');
+            // Allow paste to happen naturally
+        });
 
-copyBtn?.addEventListener('click', () => {
-    if (outputText.value) {
-        navigator.clipboard.writeText(outputText.value).then(() => {
-            copyBtn.textContent = 'Copied!';
-            setTimeout(() => { copyBtn.textContent = 'Copy to clipboard'; }, 2000);
+        inputText.addEventListener('input', (e) => {
+            console.log('Input event detected, value:', e.target.value.substring(0, 20));
+        });
+    }
+
+    // Convert button
+    if (convertBtn) {
+        convertBtn.addEventListener('click', () => {
+            const input = inputText?.value || '';
+            const output = converter.convert(input);
+            if (outputText) outputText.value = output;
+        });
+    }
+
+    // Clear button
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            if (inputText) inputText.value = '';
+            if (outputText) outputText.value = '';
+            if (inputText) inputText.focus();
+        });
+    }
+
+    // Copy button
+    if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            if (outputText?.value) {
+                navigator.clipboard.writeText(outputText.value).then(() => {
+                    copyBtn.textContent = 'Copied!';
+                    setTimeout(() => { copyBtn.textContent = 'Copy to clipboard'; }, 2000);
+                }).catch(err => {
+                    console.error('Copy failed:', err);
+                    alert('Failed to copy. Please try manually.');
+                });
+            }
         });
     }
 });
